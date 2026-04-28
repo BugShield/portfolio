@@ -1,5 +1,6 @@
 import { Calendar, Building2, Sparkles, Zap, Brain, Code2, Workflow, FileCheck, GitBranch } from 'lucide-react';
 import { StackSection } from './StackSection';
+import { CertificatesSection } from './CertificatesSection';
 
 const experiences = [
   {
@@ -401,6 +402,9 @@ export const ContentSections = () => {
           </div>
         </div>
       </section>
+
+      {/* Certificates Section */}
+      <CertificatesSection />
 
       {/* Footer */}
       <footer

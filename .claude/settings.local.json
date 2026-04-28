@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm /Users/Bugshield/dev/portfolio/.claude/commands/new-component.md /Users/Bugshield/dev/portfolio/.claude/commands/new-feature.md /Users/Bugshield/dev/portfolio/.claude/commands/qa-cycle.md /Users/Bugshield/dev/portfolio/.claude/commands/refine-copy.md)",
+      "Bash(mkdir -p /Users/Bugshield/dev/portfolio/.claude/commands/dev /Users/Bugshield/dev/portfolio/.claude/commands/qa /Users/Bugshield/dev/portfolio/.claude/commands/design)",
+      "Bash(mv dev/feature.md dev-feature.md)",
+      "Bash(mv dev/refactor.md dev-refactor.md)",
+      "Bash(mv dev/bugfix.md dev-bugfix.md)",
+      "Bash(mv qa/test-gen.md qa-test-gen.md)",
+      "Bash(mv design/component.md design-component.md)",
+      "Bash(npm run *)",
+      "Bash(mkdir -p /Users/Bugshield/dev/portfolio/frontend/public/certificates)",
+      "Bash(touch /Users/Bugshield/dev/portfolio/frontend/public/certificates/.gitkeep)"
+    ]
+  }
+}

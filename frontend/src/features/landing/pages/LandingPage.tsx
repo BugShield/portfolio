@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Header } from '../components/Header';
 import { Hero } from '../components/Hero';
+import { AboutSection } from '../components/AboutSection';
 import { SocialDock } from '../components/SocialDock';
 import { LeadCaptureModal } from '../components/LeadCaptureModal';
 import { ContentSections } from '../components/ContentSections';
@@ -40,6 +41,7 @@ export const LandingPage = () => {
           onDownloadResume={handleDownloadResume}
           onOpenLeadModal={handleOpenLeadModal}
         />
+        <AboutSection />
         <ContentSections />
       </div>
 
