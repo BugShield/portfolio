@@ -5,10 +5,10 @@ import { CertificatesSection } from './CertificatesSection';
 const experiences = [
   {
     role: 'Founder & Lead Engineer',
-    company: 'BugShield',
+    company: 'Qowi',
     period: '2025 - Present',
     description: 'Building AI-native testing solutions and modern web applications as an independent consultant. Specializing in self-healing test automation, LLM-powered QA agents, and frontend development with React/TypeScript. Architecting autonomous quality systems and delivering software house services.',
-    testId: 'experience-bugshield'
+    testId: 'experience-qowi'
   },
   {
     role: 'QA Lead Coordinator',
@@ -234,12 +234,12 @@ export const ContentSections = () => {
               Traditional QA teams spend weeks planning and writing tests. With AI-Native architecture, we architect autonomous quality ecosystems that scale instantly and self-heal continuously.
             </p>
             
-            {/* Built by BugShield Badge */}
+            {/* Built by Qowi Badge */}
             <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/60 backdrop-blur-md border border-white/40 shadow-lg">
               <span className="text-sm text-[#666666]">Built by</span>
               <img 
                 src="/logo.png" 
-                alt="BugShield" 
+                alt="Qowi"
                 className="h-6 w-auto object-contain"
               />
             </div>
@@ -417,11 +417,11 @@ export const ContentSections = () => {
             <div className="flex items-center gap-3">
               <img 
                 src="/logo.png" 
-                alt="BugShield" 
+                alt="Qowi"
                 className="h-10 w-auto object-contain"
               />
               <div>
-                <p className="text-lg font-semibold text-[#0A0A0A]">BugShield</p>
+                <p className="text-lg font-semibold text-[#0A0A0A]">Qowi</p>
                 <p className="text-sm text-[#666666]">AI-Native Quality Engineering</p>
               </div>
             </div>
@@ -429,7 +429,7 @@ export const ContentSections = () => {
             {/* Copyright */}
             <div className="text-center md:text-right">
               <p className="text-sm text-[#666666]">
-                © {new Date().getFullYear()} BugShield. All rights reserved.
+                © {new Date().getFullYear()} Qowi. All rights reserved.
               </p>
               <p className="text-xs text-[#999999] mt-1">
                 Built with AI-Native Architecture

@@ -12,11 +12,11 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
       data-testid="landing-section-hero"
     >
       {/* Hero Logo - Subtle Background */}
-      <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:block opacity-5 pointer-events-none">
-        <img 
-          src="/logo.png" 
-          alt="" 
-          className="h-64 w-auto object-contain"
+      <div className="absolute right-10 top-1/2 -translate-y-1/2 hidden lg:block opacity-[0.07] pointer-events-none">
+        <img
+          src="/logo_transparent.png"
+          alt=""
+          className="h-70 w-auto object-contain"
         />
       </div>
 
@@ -41,7 +41,7 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
             AI-Native QA Engineer & Frontend Developer
           </p>
           <p className="text-xl md:text-2xl text-[#666666] leading-relaxed">
-            Founder at <span className="text-[#0A0A0A]">BugShield</span> · Software House
+            Founder at <span className="text-[#0A0A0A]">Qowi</span> · Software House
           </p>
         </div>
 

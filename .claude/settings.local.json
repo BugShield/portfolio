@@ -10,7 +10,8 @@
       "Bash(mv design/component.md design-component.md)",
       "Bash(npm run *)",
       "Bash(mkdir -p /Users/Bugshield/dev/portfolio/frontend/public/certificates)",
-      "Bash(touch /Users/Bugshield/dev/portfolio/frontend/public/certificates/.gitkeep)"
+      "Bash(touch /Users/Bugshield/dev/portfolio/frontend/public/certificates/.gitkeep)",
+      "Bash(rtk grep *)"
     ]
   }
 }

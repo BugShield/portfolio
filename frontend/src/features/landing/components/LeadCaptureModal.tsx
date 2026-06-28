@@ -76,7 +76,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
         <div className="flex items-center justify-center mb-6">
           <img 
             src="/logo.png" 
-            alt="BugShield" 
+            alt="Qowi"
             className="h-12 w-auto object-contain"
           />
         </div>

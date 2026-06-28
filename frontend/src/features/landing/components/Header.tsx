@@ -15,9 +15,9 @@ export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
         {/* Logo */}
         <div className="flex items-center" data-testid="header-logo">
           <img 
-            src="/logo.png" 
-            alt="BugShield" 
-            className="h-15 w-auto object-contain"
+            src="/logo_transparent.png"
+            alt="Qowi"
+            className="h-8 w-auto object-contain"
           />
         </div>
 
