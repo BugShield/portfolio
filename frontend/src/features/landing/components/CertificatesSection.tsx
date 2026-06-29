@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BrainCircuit, Bot, ShieldCheck, Award, Building2, ExternalLink, Eye, X } from 'lucide-react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface Certificate {
   name: string;
@@ -9,10 +10,8 @@ interface Certificate {
   certificateFile?: string;
 }
 
-interface CertificateCategory {
+interface CategoryConfig {
   id: string;
-  label: string;
-  ariaLabel: string;
   icon: React.ReactNode;
   items: Certificate[];
 }
@@ -22,11 +21,9 @@ interface CertificateCategory {
 // To add a certificate image: copy the file to frontend/public/certificates/
 // and set certificateFile: '/certificates/your-file.png' (or .jpg / .pdf)
 // ---------------------------------------------------------------------------
-const certificateCategories: CertificateCategory[] = [
+const categoryConfig: CategoryConfig[] = [
   {
     id: 'anthropic',
-    label: 'Anthropic / Claude',
-    ariaLabel: 'Ver certificados da Anthropic / Claude',
     icon: <BrainCircuit className="w-7 h-7" />,
     items: [
       {
@@ -43,8 +40,6 @@ const certificateCategories: CertificateCategory[] = [
   },
   {
     id: 'other-ai',
-    label: 'Other AIs',
-    ariaLabel: 'Ver certificados de outras IAs',
     icon: <Bot className="w-7 h-7" />,
     items: [
       {
@@ -56,8 +51,6 @@ const certificateCategories: CertificateCategory[] = [
   },
   {
     id: 'qa',
-    label: 'QA & Test Automation',
-    ariaLabel: 'Ver certificados de QA e Automação de Testes',
     icon: <ShieldCheck className="w-7 h-7" />,
     items: [
       {
@@ -69,8 +62,6 @@ const certificateCategories: CertificateCategory[] = [
   },
   {
     id: 'others',
-    label: 'Others',
-    ariaLabel: 'Ver outros certificados',
     icon: <Award className="w-7 h-7" />,
     items: [
       {
@@ -92,6 +83,8 @@ interface CertificateModalProps {
 }
 
 const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
+  const { t } = useTranslation();
+
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -128,7 +121,7 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
           </div>
           <button
             onClick={onClose}
-            aria-label="Fechar certificado"
+            aria-label={t.certificates.closeCertAriaLabel}
             data-testid="certificate-modal-close"
             className="
               w-9 h-9 rounded-lg flex items-center justify-center
@@ -171,7 +164,7 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
               data-testid="certificate-modal-verify-link"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              Verify Certificate
+              {t.certificates.verifyCertificate}
             </a>
           </div>
         )}
@@ -183,8 +176,15 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
 // ---------------------------------------------------------------------------
 
 export const CertificatesSection = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [viewingCert, setViewingCert] = useState<Certificate | null>(null);
+
+  const categories = categoryConfig.map((cfg, i) => ({
+    ...cfg,
+    label: t.certificates.categories[i].label,
+    ariaLabel: t.certificates.categories[i].ariaLabel,
+  }));
 
   const handleCategoryClick = (id: string) => {
     setActiveCategory(prev => (prev === id ? null : id));
@@ -208,16 +208,15 @@ export const CertificatesSection = () => {
       >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-8">
-            Certificates
+            {t.certificates.heading}
           </h2>
           <p className="text-lg text-[#666666] mb-16 leading-relaxed">
-            Continuous learning across AI, quality engineering, and software development.
-            Select a category to explore.
+            {t.certificates.subtitle}
           </p>
 
           {/* Category icon row */}
           <div className="flex flex-wrap justify-center gap-8 mb-12">
-            {certificateCategories.map(cat => {
+            {categories.map(cat => {
               const isActive = activeCategory === cat.id;
               return (
                 <div key={cat.id} className="relative group flex flex-col items-center">
@@ -260,7 +259,7 @@ export const CertificatesSection = () => {
 
           {/* Accordion panels */}
           <div className="space-y-2">
-            {certificateCategories.map(cat => {
+            {categories.map(cat => {
               const isActive = activeCategory === cat.id;
               return (
                 <div
@@ -294,7 +293,7 @@ export const CertificatesSection = () => {
                               {cert.certificateFile && (
                                 <button
                                   onClick={() => setViewingCert(cert)}
-                                  aria-label={`Ver certificado: ${cert.name}`}
+                                  aria-label={t.certificates.viewCertAriaLabel(cert.name)}
                                   data-testid={`certificate-view-${cat.id}-${i}`}
                                   className="
                                     shrink-0 w-8 h-8 rounded-lg flex items-center justify-center
@@ -313,7 +312,6 @@ export const CertificatesSection = () => {
                                 <Building2 className="w-4 h-4 shrink-0" />
                                 {cert.issuer}
                               </span>
-                              
                             </div>
                             {cert.url && (
                               <a
@@ -324,7 +322,7 @@ export const CertificatesSection = () => {
                                 data-testid={`certificate-link-${cat.id}-${i}`}
                               >
                                 <ExternalLink className="w-3 h-3" />
-                                Verify Certificate
+                                {t.certificates.verifyCertificate}
                               </a>
                             )}
                           </div>

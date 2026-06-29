@@ -1,4 +1,5 @@
 import { Download, MessageCircle, MapPin } from 'lucide-react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface HeroProps {
   onDownloadResume: () => void;
@@ -6,6 +7,8 @@ interface HeroProps {
 }
 
 export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
+  const { t } = useTranslation();
+
   return (
     <section
       className="min-h-screen flex items-center justify-center px-4 py-32 md:py-40 relative overflow-hidden"
@@ -31,25 +34,24 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
           </h1>
           <div className="flex items-center gap-2 text-[#666666] text-lg">
             <MapPin className="w-4 h-4" />
-            <span>São Paulo, Brazil</span>
+            <span>{t.hero.location}</span>
           </div>
         </div>
 
         {/* Role & Company */}
         <div className="mb-12 space-y-3">
           <p className="text-2xl md:text-3xl text-[#0A0A0A] font-medium leading-relaxed">
-            AI-Native QA Engineer & Frontend Developer
+            {t.hero.role}
           </p>
           <p className="text-xl md:text-2xl text-[#666666] leading-relaxed">
-            Founder at <span className="text-[#0A0A0A]">Qowi</span> · Software House
+            {t.hero.companyPrefix} <span className="text-[#0A0A0A]">Qowi</span>{t.hero.companySuffix}
           </p>
         </div>
 
         {/* About */}
         <div className="mb-16 max-w-3xl">
           <p className="text-lg text-[#666666] leading-relaxed">
-            Building AI-native testing infrastructure with self-healing test automation, LLM-powered test generation, and agentic QA systems. 
-            Specializing in frontend development and autonomous quality engineering with 6+ years transforming traditional QA into intelligent, zero-maintenance pipelines.
+            {t.hero.bio}
           </p>
         </div>
 
@@ -58,11 +60,11 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
           <button
             onClick={onOpenLeadModal}
             data-testid="hero-button-get-in-touch"
-            aria-label="Get in touch"
+            aria-label={t.hero.getInTouchAriaLabel}
             className="
-              px-8 py-3.5 
+              px-8 py-3.5
               bg-[#0A0A0A]
-              text-white font-medium 
+              text-white font-medium
               rounded-lg
               hover:bg-[#1A1A1A]
               focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-2
@@ -71,18 +73,18 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
             "
           >
             <MessageCircle className="w-5 h-5" />
-            Get in Touch
+            {t.hero.getInTouch}
           </button>
 
           <button
             onClick={onDownloadResume}
             data-testid="hero-button-download-resume"
-            aria-label="Download Resume"
+            aria-label={t.hero.downloadResumeAriaLabel}
             className="
-              px-8 py-3.5 
+              px-8 py-3.5
               bg-white
               border border-[#E5E5E5]
-              text-[#0A0A0A] font-medium 
+              text-[#0A0A0A] font-medium
               rounded-lg
               hover:bg-[#FAFAFA]
               hover:border-[#CCCCCC]
@@ -92,7 +94,7 @@ export const Hero = ({ onDownloadResume, onOpenLeadModal }: HeroProps) => {
             "
           >
             <Download className="w-5 h-5" />
-            Resume
+            {t.hero.downloadResume}
           </button>
         </div>
       </div>

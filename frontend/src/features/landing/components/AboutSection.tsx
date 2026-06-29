@@ -1,12 +1,8 @@
-const tags = [
-  'Physics – USP',
-  'QA Lead',
-  'Test Automation',
-  'AI-native Testing',
-  'AI-native Development',
-];
+import { useTranslation } from '../i18n/LanguageContext';
 
 export const AboutSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section
       className="px-4 py-20 md:py-32 bg-white"
@@ -17,30 +13,24 @@ export const AboutSection = () => {
           className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-10 tracking-tight"
           data-testid="about-heading"
         >
-          About Me
+          {t.about.heading}
         </h2>
 
         <div className="space-y-6 mb-12" data-testid="about-body">
           <p className="text-lg text-[#666666] leading-relaxed">
-            I hold a Physics Teaching degree from USP (5 years). During that time I grew
-            interested in programming, and in 2019 I moved officially into tech. Since then
-            I've worked across web, mobile, and hybrid projects with a strong focus on test
-            automation — UI, API, and integrity testing.
+            {t.about.para1}
           </p>
 
           <p className="text-lg text-[#666666] leading-relaxed">
-            In recent years I worked as <span className="font-medium text-[#0A0A0A]">QA Lead</span>,
-            managing QA teams, reviewing merges, and keeping the team's codebase healthy.
+            {t.about.para2Start}
+            <span className="font-medium text-[#0A0A0A]">{t.about.para2Highlight}</span>
+            {t.about.para2End}
           </p>
 
           <p className="text-lg text-[#666666] leading-relaxed">
-            Over the past year and a half I've been directing my studies toward{' '}
-            <span className="font-medium text-[#0A0A0A]">AI applied to software engineering</span>,
-            deepening into AI-native testing and AI-native development. I've been using
-            automation fundamentals with AI to build quality workflows inside projects —
-            combining agents, versioned prompts, assisted test-case generation, and
-            deterministic validations — with the goal of reducing rework, expanding
-            coverage, and accelerating delivery cycles without sacrificing reliability.
+            {t.about.para3Start}
+            <span className="font-medium text-[#0A0A0A]">{t.about.para3Highlight}</span>
+            {t.about.para3End}
           </p>
         </div>
 
@@ -48,7 +38,7 @@ export const AboutSection = () => {
           className="flex flex-wrap gap-2"
           data-testid="about-tags"
         >
-          {tags.map((tag) => (
+          {t.about.tags.map((tag) => (
             <span
               key={tag}
               className="px-4 py-2 bg-[#FAFAFA] border border-[#E5E5E5] text-[#0A0A0A] rounded-lg text-sm font-medium"

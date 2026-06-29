@@ -20,6 +20,7 @@ import {
   SiPercy,
   SiLooker,
 } from 'react-icons/si';
+import { useTranslation } from '../i18n/LanguageContext';
 
 // Playwright - official logo (two theater masks: comedy + tragedy)
 const PlaywrightIcon = ({ className }: { className?: string }) => (
@@ -106,6 +107,8 @@ const StackCard = ({ item, prefix }: { item: StackItem; prefix: string }) => {
 };
 
 export const StackSection = () => {
+  const { t } = useTranslation();
+
   return (
     <section
       className="px-4 py-20 md:py-32 bg-white stack-section"
@@ -118,16 +121,16 @@ export const StackSection = () => {
       `}</style>
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-8">
-          Tech Stack
+          {t.stack.heading}
         </h2>
         <p className="text-lg text-[#666666] mb-16 leading-relaxed">
-          Tools and technologies I use to build and ensure quality across the software lifecycle.
+          {t.stack.subtitle}
         </p>
 
         <div className="space-y-16">
           <div>
             <h3 className="text-xl font-semibold text-[#0A0A0A] mb-6">
-              Development · Frontend
+              {t.stack.devFrontendHeading}
             </h3>
             <div className="flex flex-wrap gap-6">
               {developmentFrontend.map((item) => (
@@ -138,7 +141,7 @@ export const StackSection = () => {
 
           <div>
             <h3 className="text-xl font-semibold text-[#0A0A0A] mb-6">
-              Quality Assurance
+              {t.stack.qaHeading}
             </h3>
             <div className="flex flex-wrap gap-6">
               {qualityAssurance.map((item) => (
@@ -149,7 +152,7 @@ export const StackSection = () => {
 
           <div>
             <h3 className="text-xl font-semibold text-[#0A0A0A] mb-6">
-              Analytics
+              {t.stack.analyticsHeading}
             </h3>
             <div className="flex flex-wrap gap-6">
               {analytics.map((item) => (

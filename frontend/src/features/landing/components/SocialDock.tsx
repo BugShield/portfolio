@@ -1,10 +1,10 @@
 import { Github, Linkedin } from 'lucide-react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface SocialLink {
   name: string;
   url: string;
   Icon: React.ElementType;
-  ariaLabel: string;
 }
 
 const socialLinks: SocialLink[] = [
@@ -12,17 +12,22 @@ const socialLinks: SocialLink[] = [
     name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/gabriel-volponi-a11720215/',
     Icon: Linkedin,
-    ariaLabel: 'Visit LinkedIn profile',
   },
   {
     name: 'GitHub',
     url: 'https://github.com/gabrielVolponi',
     Icon: Github,
-    ariaLabel: 'Visit GitHub profile',
   },
 ];
 
 export const SocialDock = () => {
+  const { t } = useTranslation();
+
+  const ariaLabelMap: Record<string, string> = {
+    LinkedIn: t.social.linkedinAriaLabel,
+    GitHub: t.social.githubAriaLabel,
+  };
+
   return (
     <div
       className="fixed bottom-8 right-4 md:right-8 z-40"
@@ -35,7 +40,7 @@ export const SocialDock = () => {
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={social.ariaLabel}
+            aria-label={ariaLabelMap[social.name]}
             data-testid={`social-link-${social.name.toLowerCase()}`}
             className="
               w-11 h-11 md:w-12 md:h-12

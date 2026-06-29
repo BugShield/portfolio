@@ -1,4 +1,6 @@
 import { Download, MessageCircle } from 'lucide-react';
+import { useTranslation } from '../i18n/LanguageContext';
+import type { Language } from '../i18n/translations';
 
 interface HeaderProps {
   onDownloadResume: () => void;
@@ -6,6 +8,8 @@ interface HeaderProps {
 }
 
 export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
+  const { t, lang, setLang } = useTranslation();
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 bg-white/40 backdrop-blur-xl border-b border-white/30 shadow-lg shadow-black/5"
@@ -14,7 +18,7 @@ export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center" data-testid="header-logo">
-          <img 
+          <img
             src="/logo_transparent.png"
             alt="Qowi"
             className="h-8 w-auto object-contain"
@@ -23,10 +27,37 @@ export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
+          {/* Language Toggle */}
+          <div
+            role="group"
+            aria-label={t.header.langToggleAriaLabel}
+            data-testid="header-language-toggle"
+            className="flex items-center bg-white/50 backdrop-blur-md border border-white/60 rounded-xl p-0.5 shadow-sm"
+          >
+            {(['en', 'pt'] as const).map((l: Language) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                aria-pressed={lang === l}
+                data-testid={`header-language-toggle-${l}`}
+                className={[
+                  'px-3 py-1.5 rounded-lg text-sm font-medium',
+                  'transition-all duration-200',
+                  'focus:outline-none focus:ring-2 focus:ring-[#0A0A0A]/20',
+                  lang === l
+                    ? 'bg-[#0A0A0A] text-white shadow-sm'
+                    : 'text-[#666666] hover:text-[#0A0A0A]',
+                ].join(' ')}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           <button
             onClick={onOpenLeadModal}
             data-testid="header-button-contact"
-            aria-label="Contact"
+            aria-label={t.header.contactAriaLabel}
             className="
               hidden sm:flex
               px-4 py-2.5
@@ -42,13 +73,13 @@ export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
             "
           >
             <MessageCircle className="w-4 h-4" />
-            Contact
+            {t.header.contactButton}
           </button>
 
           <button
             onClick={onDownloadResume}
             data-testid="header-button-resume"
-            aria-label="Resume"
+            aria-label={t.header.resumeAriaLabel}
             className="
               px-4 py-2.5
               bg-[#0A0A0A]/90 backdrop-blur-md
@@ -62,7 +93,7 @@ export const Header = ({ onDownloadResume, onOpenLeadModal }: HeaderProps) => {
             "
           >
             <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Resume</span>
+            <span className="hidden sm:inline">{t.header.resumeButton}</span>
           </button>
         </div>
       </div>

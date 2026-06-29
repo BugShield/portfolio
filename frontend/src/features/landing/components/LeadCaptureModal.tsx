@@ -1,22 +1,15 @@
 import { useState } from 'react';
 import { X, Check } from 'lucide-react';
 import type { LeadFormData } from '../types';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const inquiryOptions = [
-  'QA Leadership & Consulting',
-  'Test Automation Strategy',
-  'Team Training',
-  'Performance & Security Testing',
-  'Speaking Engagement',
-  'Other',
-];
-
 export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<LeadFormData>({
     name: '',
     email: '',
@@ -29,7 +22,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
     // TODO: Integrate with backend API
     console.log('Lead captured:', formData);
     setIsSubmitted(true);
-    
+
     // Reset after 2 seconds
     setTimeout(() => {
       setIsSubmitted(false);
@@ -62,11 +55,11 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
       {/* Modal Card - Subtle Glassmorphism */}
       <div
         className="
-          relative z-10 
+          relative z-10
           w-full max-w-md
           bg-white/95 backdrop-blur-md
           border border-black/5
-          rounded-2xl 
+          rounded-2xl
           shadow-2xl
           p-8
         "
@@ -74,8 +67,8 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
       >
         {/* Logo Badge */}
         <div className="flex items-center justify-center mb-6">
-          <img 
-            src="/logo.png" 
+          <img
+            src="/logo.png"
             alt="Qowi"
             className="h-12 w-auto object-contain"
           />
@@ -85,7 +78,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
         <button
           onClick={onClose}
           data-testid="lead-modal-button-close"
-          aria-label="Close modal"
+          aria-label={t.modal.closeAriaLabel}
           className="
             absolute top-4 right-4
             w-10 h-10
@@ -108,10 +101,10 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                 className="text-3xl font-semibold text-[#0A0A0A] mb-3"
                 data-testid="lead-modal-title"
               >
-                Strategy Sync
+                {t.modal.title}
               </h2>
               <p className="text-[#666666] leading-relaxed">
-                Let's architect autonomous quality systems that scale.
+                {t.modal.subtitle}
               </p>
             </div>
 
@@ -124,7 +117,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                     htmlFor="name"
                     className="block text-sm font-medium text-[#0A0A0A] mb-2"
                   >
-                    Name
+                    {t.modal.nameLabel}
                   </label>
                   <input
                     type="text"
@@ -143,7 +136,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                       focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:border-transparent
                       transition-all duration-200
                     "
-                    placeholder="Your name"
+                    placeholder={t.modal.namePlaceholder}
                   />
                 </div>
 
@@ -153,7 +146,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                     htmlFor="email"
                     className="block text-sm font-medium text-[#0A0A0A] mb-2"
                   >
-                    Email
+                    {t.modal.emailLabel}
                   </label>
                   <input
                     type="email"
@@ -172,7 +165,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                       focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:border-transparent
                       transition-all duration-200
                     "
-                    placeholder="you@company.com"
+                    placeholder={t.modal.emailPlaceholder}
                   />
                 </div>
 
@@ -182,7 +175,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                     htmlFor="inquiry"
                     className="block text-sm font-medium text-[#0A0A0A] mb-2"
                   >
-                    How can I help?
+                    {t.modal.inquiryLabel}
                   </label>
                   <select
                     id="inquiry"
@@ -204,9 +197,9 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                     "
                   >
                     <option value="">
-                      Select an option
+                      {t.modal.selectPlaceholder}
                     </option>
-                    {inquiryOptions.map((option) => (
+                    {t.modal.inquiryOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
                       </option>
@@ -229,7 +222,7 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                   transition-all duration-200
                 "
               >
-                Send Message
+                {t.modal.submitButton}
               </button>
             </form>
           </>
@@ -243,10 +236,10 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
               <Check className="w-8 h-8 text-green-600" />
             </div>
             <h3 className="text-2xl font-semibold text-[#0A0A0A] mb-2">
-              Message Sent
+              {t.modal.successTitle}
             </h3>
             <p className="text-[#666666]">
-              I'll get back to you soon.
+              {t.modal.successMessage}
             </p>
           </div>
         )}
