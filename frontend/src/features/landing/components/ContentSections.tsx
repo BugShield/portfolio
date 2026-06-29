@@ -1,37 +1,7 @@
 import { Calendar, Building2, Sparkles, Zap, Brain, Code2, Workflow, FileCheck, GitBranch } from 'lucide-react';
 import { StackSection } from './StackSection';
 import { CertificatesSection } from './CertificatesSection';
-
-const experiences = [
-  {
-    role: 'Founder & Lead Engineer',
-    company: 'Qowi',
-    period: '2025 - Present',
-    description: 'Building AI-native testing solutions and modern web applications as an independent consultant. Specializing in self-healing test automation, LLM-powered QA agents, and frontend development with React/TypeScript. Architecting autonomous quality systems and delivering software house services.',
-    testId: 'experience-qowi'
-  },
-  {
-    role: 'QA Lead Coordinator',
-    company: 'VIDI',
-    period: 'Feb 2025 - Present',
-    description: 'Coordinating AI-enhanced automated testing for web and mobile applications. Implementing intelligent test generation with Cypress, Robot Framework, and Appium. Leading performance testing, integrity validation, and security analysis with focus on AI-driven approaches.',
-    testId: 'experience-vidi-current'
-  },
-  {
-    role: 'QA Leader (Consulting)',
-    company: 'igc partners',
-    period: 'Nov 2024 - Feb 2025',
-    description: 'Led AI-driven testing pipeline transformation. Implemented intelligent test automation for frontend/backend using Cypress, Robot Framework, Appium. Conducted performance testing with k6 and pentesting for security.',
-    testId: 'experience-igc'
-  },
-  {
-    role: 'Coordinator of Automated Testing',
-    company: 'AutoForce',
-    period: 'Aug 2022 - Nov 2023',
-    description: 'Introduced AI-assisted quality culture and CI/CD practices. Built self-maintaining E2E automation framework with Cypress, API testing automation, and performance testing infrastructure. Established quality-first architecture.',
-    testId: 'experience-autoforce'
-  }
-];
+import { useTranslation } from '../i18n/LanguageContext';
 
 const technologies = [
   'AI-Native Testing', 'LLM-Powered QA', 'Self-Healing Tests', 'Autonomous Agents',
@@ -41,28 +11,12 @@ const technologies = [
   'CI/CD Automation', 'GitLab', 'AWS', 'Python'
 ];
 
-const aiCapabilities = [
-  {
-    icon: Brain,
-    title: 'LLM-Powered Test Generation',
-    description: 'Autonomous test creation using GPT-4 and Claude to generate comprehensive test scenarios from requirements.',
-    testId: 'ai-capability-llm'
-  },
-  {
-    icon: Zap,
-    title: 'Self-Healing Test Automation',
-    description: 'AI-driven selector adaptation that automatically fixes broken tests when UI elements change, eliminating maintenance overhead.',
-    testId: 'ai-capability-self-healing'
-  },
-  {
-    icon: Sparkles,
-    title: 'Agentic QA Systems',
-    description: 'Multi-agent orchestration for intelligent test execution, visual regression detection, and predictive failure analysis.',
-    testId: 'ai-capability-agentic'
-  }
-];
+const aiCapabilityIcons = [Brain, Zap, Sparkles] as const;
+const aiCapabilityTestIds = ['ai-capability-llm', 'ai-capability-self-healing', 'ai-capability-agentic'] as const;
 
 export const ContentSections = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Meta-Demo Section: This Page is Built with AI-Native Architecture */}
@@ -74,14 +28,14 @@ export const ContentSections = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/5 backdrop-blur-sm border border-black/10 mb-6">
             <Sparkles className="w-4 h-4 text-[#0A0A0A]" />
-            <span className="text-sm font-medium text-[#0A0A0A]">Meta-Demonstration</span>
+            <span className="text-sm font-medium text-[#0A0A0A]">{t.metaDemo.badge}</span>
           </div>
 
           <h2 className="text-4xl md:text-6xl font-semibold text-[#0A0A0A] mb-8 leading-tight">
-            This page was built using AI-Native architecture.
+            {t.metaDemo.heading}
           </h2>
           <p className="text-xl text-[#666666] mb-16 leading-relaxed">
-            A living demonstration of intelligent development workflows. Every feature you see here—from design to deployment—was orchestrated by autonomous AI agents with zero manual testing.
+            {t.metaDemo.subtitle}
           </p>
 
           {/* Architecture Flow */}
@@ -99,10 +53,10 @@ export const ContentSections = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl md:text-2xl font-semibold text-[#0A0A0A] mb-3">
-                    Prompt Engineering & RAG-Powered Development
+                    {t.metaDemo.step1.heading}
                   </h3>
                   <p className="text-[#666666] leading-relaxed mb-4">
-                    Advanced prompt orchestration combined with Retrieval-Augmented Generation (RAG) manages the entire web development lifecycle. Context-aware AI pulls requirements, design tokens, and architectural patterns to generate production-ready React components.
+                    {t.metaDemo.step1.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-medium bg-[#FAFAFA] border border-[#E5E5E5] rounded-full">
@@ -132,10 +86,10 @@ export const ContentSections = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl md:text-2xl font-semibold text-[#0A0A0A] mb-3">
-                    Agent 1: Autonomous Test Strategy Generation
+                    {t.metaDemo.step2.heading}
                   </h3>
                   <p className="text-[#666666] leading-relaxed mb-4">
-                    First AI agent analyzes the codebase and generates comprehensive test plans covering E2E scenarios, accessibility validation, visual regression, performance benchmarks, and edge cases. No manual test writing required.
+                    {t.metaDemo.step2.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-medium bg-[#FAFAFA] border border-[#E5E5E5] rounded-full">
@@ -168,10 +122,10 @@ export const ContentSections = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl md:text-2xl font-semibold text-[#0A0A0A] mb-3">
-                    Agent 2: Playwright Test Automation
+                    {t.metaDemo.step3.heading}
                   </h3>
                   <p className="text-[#666666] leading-relaxed mb-4">
-                    Second AI agent translates test strategies into executable Playwright scripts with intelligent selectors, auto-healing locators, and comprehensive assertions. Executes full test suite on first run with zero flakiness.
+                    {t.metaDemo.step3.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-medium bg-[#FAFAFA] border border-[#E5E5E5] rounded-full">
@@ -201,10 +155,12 @@ export const ContentSections = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl md:text-2xl font-semibold text-[#0A0A0A] mb-3">
-                    Continuous Quality: Auto-Reports on Every Push
+                    {t.metaDemo.step4.heading}
                   </h3>
                   <p className="text-[#666666] leading-relaxed mb-4">
-                    Every push to <code className="px-2 py-0.5 bg-[#0A0A0A]/5 rounded text-sm font-mono">develop</code> triggers the full test suite. AI-generated reports with screenshots, performance metrics, and accessibility scores are published automatically. Zero manual QA involvement.
+                    {t.metaDemo.step4.descriptionPre}
+                    <code className="px-2 py-0.5 bg-[#0A0A0A]/5 rounded text-sm font-mono">develop</code>
+                    {t.metaDemo.step4.descriptionPost}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-3 py-1 text-xs font-medium bg-[#FAFAFA] border border-[#E5E5E5] rounded-full">
@@ -228,17 +184,17 @@ export const ContentSections = () => {
           {/* Bottom CTA */}
           <div className="mt-16 text-center">
             <p className="text-lg text-[#0A0A0A] font-medium mb-4">
-              This is the future of quality engineering.
+              {t.metaDemo.closingStatement}
             </p>
             <p className="text-[#666666] max-w-2xl mx-auto mb-8">
-              Traditional QA teams spend weeks planning and writing tests. With AI-Native architecture, we architect autonomous quality ecosystems that scale instantly and self-heal continuously.
+              {t.metaDemo.closingDescription}
             </p>
-            
+
             {/* Built by Qowi Badge */}
             <div className="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white/60 backdrop-blur-md border border-white/40 shadow-lg">
-              <span className="text-sm text-[#666666]">Built by</span>
-              <img 
-                src="/logo.png" 
+              <span className="text-sm text-[#666666]">{t.metaDemo.builtBy}</span>
+              <img
+                src="/logo.png"
                 alt="Qowi"
                 className="h-6 w-auto object-contain"
               />
@@ -254,34 +210,37 @@ export const ContentSections = () => {
       >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-8">
-            AI-Native Quality Engineering
+            {t.aiCapabilities.heading}
           </h2>
           <p className="text-lg text-[#666666] mb-16 leading-relaxed">
-            Leveraging cutting-edge AI technologies to build intelligent testing systems that scale autonomously.
+            {t.aiCapabilities.subtitle}
           </p>
 
           <div className="space-y-12">
-            {aiCapabilities.map((capability, index) => (
-              <div
-                key={index}
-                className="flex gap-6"
-                data-testid={capability.testId}
-              >
-                <div className="shrink-0">
-                  <div className="w-12 h-12 rounded-lg bg-[#0A0A0A] flex items-center justify-center">
-                    <capability.icon className="w-6 h-6 text-white" />
+            {t.aiCapabilities.items.map((capability, index) => {
+              const Icon = aiCapabilityIcons[index];
+              return (
+                <div
+                  key={index}
+                  className="flex gap-6"
+                  data-testid={aiCapabilityTestIds[index]}
+                >
+                  <div className="shrink-0">
+                    <div className="w-12 h-12 rounded-lg bg-[#0A0A0A] flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-medium text-[#0A0A0A] mb-2">
+                      {capability.title}
+                    </h3>
+                    <p className="text-[#666666] leading-relaxed">
+                      {capability.description}
+                    </p>
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-xl md:text-2xl font-medium text-[#0A0A0A] mb-2">
-                    {capability.title}
-                  </h3>
-                  <p className="text-[#666666] leading-relaxed">
-                    {capability.description}
-                  </p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -293,11 +252,11 @@ export const ContentSections = () => {
       >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-16">
-            Experience
+            {t.experience.heading}
           </h2>
 
           <div className="space-y-12">
-            {experiences.map((exp, index) => (
+            {t.experience.items.map((exp, index) => (
               <div
                 key={index}
                 className="border-l-2 border-[#E5E5E5] pl-6 pb-6"
@@ -334,11 +293,10 @@ export const ContentSections = () => {
       >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-8">
-            Technologies & Expertise
+            {t.technologies.heading}
           </h2>
           <p className="text-lg text-[#666666] mb-12 leading-relaxed">
-            Specializing in AI-driven quality engineering and modern web development. 
-            Building intelligent testing systems that learn, adapt, and self-heal.
+            {t.technologies.subtitle}
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -346,10 +304,10 @@ export const ContentSections = () => {
               <span
                 key={index}
                 className="
-                  px-4 py-2 
-                  bg-[#FAFAFA] 
+                  px-4 py-2
+                  bg-[#FAFAFA]
                   border border-[#E5E5E5]
-                  text-[#0A0A0A] 
+                  text-[#0A0A0A]
                   rounded-lg
                   text-sm font-medium
                   hover:bg-[#F5F5F5]
@@ -374,31 +332,23 @@ export const ContentSections = () => {
       >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] mb-16">
-            Education
+            {t.education.heading}
           </h2>
 
           <div className="space-y-8">
-            <div
-              className="border-l-2 border-[#E5E5E5] pl-6"
-              data-testid="education-infnet"
-            >
-              <h3 className="text-xl md:text-2xl font-medium text-[#0A0A0A] mb-1">
-                Bachelor's in Software Analysis and Development
-              </h3>
-              <p className="text-[#666666] mb-2">Instituto Infnet</p>
-              <p className="text-[#666666] text-sm">2025 - 2027 (In Progress)</p>
-            </div>
-
-            <div
-              className="border-l-2 border-[#E5E5E5] pl-6"
-              data-testid="education-usp"
-            >
-              <h3 className="text-xl md:text-2xl font-medium text-[#0A0A0A] mb-1">
-                Physics Teaching Degree
-              </h3>
-              <p className="text-[#666666] mb-2">Universidade de São Paulo (USP)</p>
-              <p className="text-[#666666] text-sm">5 years completed</p>
-            </div>
+            {t.education.items.map((edu, index) => (
+              <div
+                key={index}
+                className="border-l-2 border-[#E5E5E5] pl-6"
+                data-testid={edu.testId}
+              >
+                <h3 className="text-xl md:text-2xl font-medium text-[#0A0A0A] mb-1">
+                  {edu.degree}
+                </h3>
+                <p className="text-[#666666] mb-2">{edu.institution}</p>
+                <p className="text-[#666666] text-sm">{edu.period}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -415,24 +365,24 @@ export const ContentSections = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Logo and Brand */}
             <div className="flex items-center gap-3">
-              <img 
-                src="/logo.png" 
+              <img
+                src="/logo.png"
                 alt="Qowi"
                 className="h-10 w-auto object-contain"
               />
               <div>
                 <p className="text-lg font-semibold text-[#0A0A0A]">Qowi</p>
-                <p className="text-sm text-[#666666]">AI-Native Quality Engineering</p>
+                <p className="text-sm text-[#666666]">{t.footer.tagline}</p>
               </div>
             </div>
 
             {/* Copyright */}
             <div className="text-center md:text-right">
               <p className="text-sm text-[#666666]">
-                © {new Date().getFullYear()} Qowi. All rights reserved.
+                {t.footer.copyright(new Date().getFullYear())}
               </p>
               <p className="text-xs text-[#999999] mt-1">
-                Built with AI-Native Architecture
+                {t.footer.builtWith}
               </p>
             </div>
           </div>
