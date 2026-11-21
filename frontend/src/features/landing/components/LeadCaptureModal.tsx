@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Check } from 'lucide-react';
 import type { LeadFormData } from '../types';
 import { useTranslation } from '../i18n/LanguageContext';
+import { submitLead } from '../services/leadService';
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
@@ -16,19 +17,31 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
     inquiry: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [botcheck, setBotcheck] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with backend API
-    console.log('Lead captured:', formData);
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    setHasError(false);
 
-    // Reset after 2 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      onClose();
-      setFormData({ name: '', email: '', inquiry: '' });
-    }, 2000);
+    try {
+      await submitLead(formData, botcheck);
+      setIsSubmitted(true);
+
+      // Reset after 2 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+        onClose();
+        setFormData({ name: '', email: '', inquiry: '' });
+      }, 2000);
+    } catch (error: unknown) {
+      console.error('Lead submission failed:', error);
+      setHasError(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -110,6 +123,17 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
 
             {/* Form */}
             <form onSubmit={handleSubmit} data-testid="lead-modal-form">
+              {/* Honeypot — hidden from humans, filled by bots */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                checked={botcheck !== ''}
+                onChange={(e) => setBotcheck(e.target.checked ? 'on' : '')}
+                className="hidden"
+                tabIndex={-1}
+                aria-hidden="true"
+              />
+
               <div className="space-y-5">
                 {/* Name Input */}
                 <div>
@@ -208,9 +232,20 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                 </div>
               </div>
 
+              {hasError && (
+                <p
+                  role="alert"
+                  className="mt-6 text-sm text-red-600 text-center"
+                  data-testid="lead-modal-error"
+                >
+                  {t.modal.errorMessage}
+                </p>
+              )}
+
               {/* Submit Button */}
               <button
                 type="submit"
+                disabled={isSubmitting}
                 data-testid="lead-modal-button-submit"
                 className="
                   w-full mt-8 px-6 py-3.5
@@ -220,9 +255,10 @@ export const LeadCaptureModal = ({ isOpen, onClose }: LeadCaptureModalProps) => 
                   hover:bg-[#1A1A1A]
                   focus:outline-none focus:ring-2 focus:ring-[#0A0A0A] focus:ring-offset-2
                   transition-all duration-200
+                  disabled:opacity-60 disabled:cursor-not-allowed
                 "
               >
-                {t.modal.submitButton}
+                {isSubmitting ? t.modal.submitting : t.modal.submitButton}
               </button>
             </form>
           </>

@@ -1,5 +1,15 @@
 export type Language = 'en' | 'pt';
 
+export type CertificateCategoryId = 'anthropic' | 'qa' | 'security' | 'others';
+
+interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+  testId: string;
+}
+
 export interface Translations {
   header: {
     contactButton: string;
@@ -53,12 +63,7 @@ export interface Translations {
   };
   experience: {
     heading: string;
-    items: readonly [
-      { role: string; company: string; period: string; description: string; testId: string },
-      { role: string; company: string; period: string; description: string; testId: string },
-      { role: string; company: string; period: string; description: string; testId: string },
-      { role: string; company: string; period: string; description: string; testId: string },
-    ];
+    items: readonly ExperienceItem[];
   };
   technologies: {
     heading: string;
@@ -84,12 +89,7 @@ export interface Translations {
     verifyCertificate: string;
     viewCertAriaLabel: (name: string) => string;
     closeCertAriaLabel: string;
-    categories: readonly [
-      { label: string; ariaLabel: string },
-      { label: string; ariaLabel: string },
-      { label: string; ariaLabel: string },
-      { label: string; ariaLabel: string },
-    ];
+    categories: Record<CertificateCategoryId, { label: string; ariaLabel: string }>;
   };
   footer: {
     tagline: string;
@@ -107,6 +107,8 @@ export interface Translations {
     selectPlaceholder: string;
     inquiryOptions: readonly string[];
     submitButton: string;
+    submitting: string;
+    errorMessage: string;
     closeAriaLabel: string;
     successTitle: string;
     successMessage: string;
@@ -197,29 +199,57 @@ const en: Translations = {
         role: 'Founder & Lead Engineer',
         company: 'Qowi',
         period: '2025 - Present',
-        description: 'Building AI-native testing solutions and modern web applications as an independent consultant. Specializing in self-healing test automation, LLM-powered QA agents, and frontend development with React/TypeScript. Architecting autonomous quality systems and delivering software house services.',
+        description: 'Building AI-native quality engineering solutions and modern web applications. Specializing in autonomous testing, LLM-powered QA agents, and frontend development with React/TypeScript, delivering software house services.',
         testId: 'experience-qowi',
       },
       {
-        role: 'QA Lead Coordinator',
-        company: 'VIDI',
-        period: 'Feb 2025 - Present',
-        description: 'Coordinating AI-enhanced automated testing for web and mobile applications. Implementing intelligent test generation with Cypress, Robot Framework, and Appium. Leading performance testing, integrity validation, and security analysis with focus on AI-driven approaches.',
-        testId: 'experience-vidi-current',
+        role: 'Senior Quality Assurance',
+        company: 'Luby',
+        period: 'Jan 2026 - Present',
+        description: 'Senior quality engineering on remote client projects, owning test strategy and autonomous testing across web applications.',
+        testId: 'experience-luby',
       },
       {
-        role: 'QA Leader (Consulting)',
+        role: 'QA Lead | Coordinator of Automated Testing, Performance, Integrity & Security',
+        company: 'VIDI',
+        period: 'Feb 2025 - Jan 2026',
+        description: 'Coordinated autonomous web testing (Cypress, Robot Framework/Selenium), mobile testing (Robot Framework/Appium), and data integrity validation for SSMS & Power BI (Robot Framework Database Library/SQL). Led web and mobile security testing.',
+        testId: 'experience-vidi-lead',
+      },
+      {
+        role: 'QA Leader | Business Analyst (Consulting)',
         company: 'igc partners',
         period: 'Nov 2024 - Feb 2025',
-        description: 'Led AI-driven testing pipeline transformation. Implemented intelligent test automation for frontend/backend using Cypress, Robot Framework, Appium. Conducted performance testing with k6 and pentesting for security.',
+        description: 'Led the full quality pipeline: frontend/backend autonomous testing with Cypress, Robot Framework, and Appium, performance testing with k6, and pentesting. Translated business needs into sprint-ready tasks and reported coverage, quality KPIs, and delivery status.',
         testId: 'experience-igc',
       },
       {
-        role: 'Coordinator of Automated Testing',
+        role: 'QA Leader | Automated Testing Coordinator | Security Testing Analyst',
+        company: 'VIDI',
+        period: 'Nov 2023 - Dec 2024',
+        description: 'Coordinated automated testing and performance. Built web automation with Cypress and Robot Framework (Selenium), mobile automation with Robot Framework (Appium), and ran web/mobile security testing.',
+        testId: 'experience-vidi-coordinator',
+      },
+      {
+        role: 'Coordinator of Automated Testing and Performance',
         company: 'AutoForce',
         period: 'Aug 2022 - Nov 2023',
-        description: 'Introduced AI-assisted quality culture and CI/CD practices. Built self-maintaining E2E automation framework with Cypress, API testing automation, and performance testing infrastructure. Established quality-first architecture.',
+        description: 'Introduced a quality culture and continuous integration. Built the E2E framework with Cypress (Currents/Sorry Cypress dashboards), API automation, and a performance testing suite (load, peak, stress, endurance, smoke). Documented the quality architecture and led the QA team.',
         testId: 'experience-autoforce',
+      },
+      {
+        role: 'Mid-Level Test Analyst',
+        company: 'TaskCheck',
+        period: 'Jul 2021 - Jul 2022',
+        description: 'Owned test strategy and BDD test design for the squad. Built a Cypress framework covering all test cases, automated API testing, and parallelized the suite in GitLab CI/CD on AWS with cost monitoring alongside DevOps.',
+        testId: 'experience-taskcheck',
+      },
+      {
+        role: 'Quality Assurance Tester',
+        company: 'InfoA2 Evolution',
+        period: 'Jan 2019 - Jul 2021',
+        description: 'Tested web and mobile (iOS & Android) products, validating user flows, spreadsheet-driven dynamic systems, and back-end APIs. Projects included Powpay (React Native financial education app) and Kion Dental Technology (prosthesis request portal).',
+        testId: 'experience-infoa2',
       },
     ],
   },
@@ -257,12 +287,12 @@ const en: Translations = {
     verifyCertificate: 'Verify Certificate',
     viewCertAriaLabel: (name) => `View certificate: ${name}`,
     closeCertAriaLabel: 'Close certificate',
-    categories: [
-      { label: 'Anthropic / Claude', ariaLabel: 'View Anthropic / Claude certificates' },
-      { label: 'Other AIs', ariaLabel: 'View other AI certificates' },
-      { label: 'QA & Test Automation', ariaLabel: 'View QA & Test Automation certificates' },
-      { label: 'Others', ariaLabel: 'View other certificates' },
-    ],
+    categories: {
+      anthropic: { label: 'Anthropic / Claude', ariaLabel: 'View Anthropic / Claude certificates' },
+      qa: { label: 'Quality Engineering & Test Automation', ariaLabel: 'View Quality Engineering & Test Automation certificates' },
+      security: { label: 'Cybersecurity', ariaLabel: 'View Cybersecurity certificates' },
+      others: { label: 'Others', ariaLabel: 'View other certificates' },
+    },
   },
   footer: {
     tagline: 'AI-Native Quality Engineering',
@@ -287,6 +317,8 @@ const en: Translations = {
       'Other',
     ],
     submitButton: 'Send Message',
+    submitting: 'Sending...',
+    errorMessage: 'Something went wrong. Please try again or reach out on LinkedIn.',
     closeAriaLabel: 'Close modal',
     successTitle: 'Message Sent',
     successMessage: "I'll get back to you soon.",
@@ -377,29 +409,57 @@ const pt: Translations = {
         role: 'Fundador & Engenheiro Principal',
         company: 'Qowi',
         period: '2025 - Presente',
-        description: 'Construindo soluções de testes AI-native e aplicações web modernas como consultor independente. Especializado em automação de testes self-healing, agentes de QA com LLM e desenvolvimento frontend com React/TypeScript. Arquitetando sistemas autônomos de qualidade e entregando serviços de software house.',
+        description: 'Construindo soluções de engenharia de qualidade AI-native e aplicações web modernas. Especializado em testes autônomos, agentes de QA com LLM e desenvolvimento frontend com React/TypeScript, entregando serviços de software house.',
         testId: 'experience-qowi',
       },
       {
-        role: 'Coordenador de QA Lead',
-        company: 'VIDI',
-        period: 'Fev 2025 - Presente',
-        description: 'Coordenando testes automatizados aprimorados por IA para aplicações web e mobile. Implementando geração inteligente de testes com Cypress, Robot Framework e Appium. Liderando testes de performance, validação de integridade e análise de segurança com foco em abordagens orientadas por IA.',
-        testId: 'experience-vidi-current',
+        role: 'Senior Quality Assurance',
+        company: 'Luby',
+        period: 'Jan 2026 - Presente',
+        description: 'Engenharia de qualidade sênior em projetos remotos de clientes, responsável pela estratégia de testes e testes autônomos em aplicações web.',
+        testId: 'experience-luby',
       },
       {
-        role: 'QA Leader (Consultoria)',
+        role: 'QA Lead | Coordenador de Testes Automatizados, Performance, Integridade e Segurança',
+        company: 'VIDI',
+        period: 'Fev 2025 - Jan 2026',
+        description: 'Coordenei testes autônomos web (Cypress, Robot Framework/Selenium), mobile (Robot Framework/Appium) e validação de integridade de dados em SSMS e Power BI (Robot Framework Database Library/SQL). Liderei testes de segurança web e mobile.',
+        testId: 'experience-vidi-lead',
+      },
+      {
+        role: 'QA Leader | Business Analyst (Consultoria)',
         company: 'igc partners',
         period: 'Nov 2024 - Fev 2025',
-        description: 'Liderou a transformação do pipeline de testes orientado por IA. Implementou automação inteligente de testes para frontend/backend com Cypress, Robot Framework e Appium. Realizou testes de performance com k6 e pentesting para segurança.',
+        description: 'Liderei todo o pipeline de qualidade: testes autônomos frontend/backend com Cypress, Robot Framework e Appium, testes de performance com k6 e pentesting. Traduzi necessidades de negócio em tarefas de sprint e reportei cobertura, KPIs de qualidade e status de entrega.',
         testId: 'experience-igc',
       },
       {
-        role: 'Coordenador de Automação de Testes',
+        role: 'QA Leader | Coordenador de Testes Automatizados | Analista de Testes de Segurança',
+        company: 'VIDI',
+        period: 'Nov 2023 - Dez 2024',
+        description: 'Coordenei testes automatizados e de performance. Construí automação web com Cypress e Robot Framework (Selenium), automação mobile com Robot Framework (Appium) e executei testes de segurança web/mobile.',
+        testId: 'experience-vidi-coordinator',
+      },
+      {
+        role: 'Coordenador de Testes Automatizados e Performance',
         company: 'AutoForce',
         period: 'Ago 2022 - Nov 2023',
-        description: 'Introduziu cultura de qualidade assistida por IA e práticas de CI/CD. Construiu framework E2E automantenível com Cypress, automação de testes de API e infraestrutura de testes de performance. Estabeleceu arquitetura com foco em qualidade.',
+        description: 'Introduzi cultura de qualidade e integração contínua. Construí o framework E2E com Cypress (dashboards Currents/Sorry Cypress), automação de API e suíte de testes de performance (load, peak, stress, endurance, smoke). Documentei a arquitetura de qualidade e liderei o time de QA.',
         testId: 'experience-autoforce',
+      },
+      {
+        role: 'Analista de Testes Pleno',
+        company: 'TaskCheck',
+        period: 'Jul 2021 - Jul 2022',
+        description: 'Responsável pela estratégia de testes e desenho de casos em BDD da squad. Construí framework Cypress cobrindo todos os casos, automatizei testes de API e paralelizei a suíte no GitLab CI/CD na AWS, monitorando custos com o time de DevOps.',
+        testId: 'experience-taskcheck',
+      },
+      {
+        role: 'Quality Assurance Tester',
+        company: 'InfoA2 Evolution',
+        period: 'Jan 2019 - Jul 2021',
+        description: 'Testei produtos web e mobile (iOS e Android), validando fluxos de usuário, sistemas dinâmicos guiados por planilhas e APIs de back-end. Projetos incluíram Powpay (app React Native de educação financeira) e Kion Dental Technology (portal de pedidos de próteses).',
+        testId: 'experience-infoa2',
       },
     ],
   },
@@ -437,12 +497,12 @@ const pt: Translations = {
     verifyCertificate: 'Verificar Certificado',
     viewCertAriaLabel: (name) => `Ver certificado: ${name}`,
     closeCertAriaLabel: 'Fechar certificado',
-    categories: [
-      { label: 'Anthropic / Claude', ariaLabel: 'Ver certificados da Anthropic / Claude' },
-      { label: 'Outras IAs', ariaLabel: 'Ver certificados de outras IAs' },
-      { label: 'QA & Automação de Testes', ariaLabel: 'Ver certificados de QA e Automação de Testes' },
-      { label: 'Outros', ariaLabel: 'Ver outros certificados' },
-    ],
+    categories: {
+      anthropic: { label: 'Anthropic / Claude', ariaLabel: 'Ver certificados da Anthropic / Claude' },
+      qa: { label: 'Engenharia de Qualidade & Automação de Testes', ariaLabel: 'Ver certificados de Engenharia de Qualidade e Automação de Testes' },
+      security: { label: 'Cibersegurança', ariaLabel: 'Ver certificados de Cibersegurança' },
+      others: { label: 'Outros', ariaLabel: 'Ver outros certificados' },
+    },
   },
   footer: {
     tagline: 'Engenharia de Qualidade AI-Native',
@@ -467,6 +527,8 @@ const pt: Translations = {
       'Outro',
     ],
     submitButton: 'Enviar Mensagem',
+    submitting: 'Enviando...',
+    errorMessage: 'Algo deu errado. Tente novamente ou fale comigo pelo LinkedIn.',
     closeAriaLabel: 'Fechar modal',
     successTitle: 'Mensagem Enviada',
     successMessage: 'Retornarei em breve.',

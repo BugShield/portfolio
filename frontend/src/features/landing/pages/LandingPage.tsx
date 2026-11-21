@@ -5,15 +5,21 @@ import { AboutSection } from '../components/AboutSection';
 import { SocialDock } from '../components/SocialDock';
 import { LeadCaptureModal } from '../components/LeadCaptureModal';
 import { ContentSections } from '../components/ContentSections';
+import { useTranslation } from '../i18n/LanguageContext';
+
+const RESUME_FILE_NAMES = {
+  en: 'Gabriel_Volponi_Resume_EN.pdf',
+  pt: 'Gabriel_Volponi_Curriculo_PT.pdf',
+} as const;
 
 export const LandingPage = () => {
+  const { lang } = useTranslation();
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
 
   const handleDownloadResume = () => {
-    // TODO: Replace with actual resume PDF path
     const link = document.createElement('a');
-    link.href = '/resume.pdf';
-    link.download = 'Gabriel_Volponi_Resume.pdf';
+    link.href = `/resume-${lang}.pdf`;
+    link.download = RESUME_FILE_NAMES[lang];
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

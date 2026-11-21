@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BrainCircuit, Bot, ShieldCheck, Award, Building2, ExternalLink, Eye, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { BrainCircuit, FlaskConical, ShieldCheck, Award, Building2, ExternalLink, Eye, X } from 'lucide-react';
 import { useTranslation } from '../i18n/LanguageContext';
+import type { CertificateCategoryId } from '../i18n/translations';
 
 interface Certificate {
   name: string;
@@ -11,13 +13,13 @@ interface Certificate {
 }
 
 interface CategoryConfig {
-  id: string;
+  id: CertificateCategoryId;
   icon: React.ReactNode;
   items: Certificate[];
 }
 
 // ---------------------------------------------------------------------------
-// DATA — replace placeholders with real data when available.
+// DATA — synced with LinkedIn (Licenses & Certifications).
 // To add a certificate image: copy the file to frontend/public/certificates/
 // and set certificateFile: '/certificates/your-file.png' (or .jpg / .pdf)
 // ---------------------------------------------------------------------------
@@ -29,34 +31,74 @@ const categoryConfig: CategoryConfig[] = [
       {
         name: 'Claude 101',
         issuer: 'Anthropic',
-        // certificateFile: '/certificates/anthropic-claude-101.png',
+        url: 'https://verify.skilljar.com/c/5o2byrmmf84a',
+        certificateFile: '/certificates/anthropic-claude-101.jpg',
       },
       {
         name: 'Claude Code 101',
         issuer: 'Anthropic',
-        // certificateFile: '/certificates/anthropic-claude-code-101.png',
-      },
-    ],
-  },
-  {
-    id: 'other-ai',
-    icon: <Bot className="w-7 h-7" />,
-    items: [
-      {
-        name: 'PLACEHOLDER – Certificate Name',
-        issuer: 'TBD',
-        // certificateFile: '/certificates/other-ai-example.png',
+        url: 'https://verify.skilljar.com/c/nd2jssoe8cwa',
+        certificateFile: '/certificates/anthropic-claude-code-101.jpg',
       },
     ],
   },
   {
     id: 'qa',
+    icon: <FlaskConical className="w-7 h-7" />,
+    items: [
+      {
+        name: 'Testes de Performance com K6',
+        issuer: 'Udemy',
+        url: 'https://www.udemy.com/certificate/UC-4156d816-703a-4473-a7a1-8954708e5d11/',
+        certificateFile: '/certificates/udemy-testes-performance-k6.jpg',
+      },
+      {
+        name: 'Javascript para QAs',
+        issuer: 'Udemy',
+        url: 'https://www.udemy.com/certificate/UC-4b4649d2-c786-4520-b98f-d506d808254b/',
+        certificateFile: '/certificates/udemy-javascript-para-qas.jpg',
+      },
+      {
+        name: 'Playwright JS Automation Testing from Scratch with Framework',
+        issuer: 'Udemy',
+        url: 'https://www.udemy.com/certificate/UC-fa5e2dfb-8119-40e0-b648-57391464835e/',
+        certificateFile: '/certificates/udemy-playwright-js-automation.jpg',
+      },
+      {
+        name: 'Teste de Regressão Visual com Cypress',
+        issuer: 'Udemy',
+        url: 'https://www.udemy.com/certificate/UC-bbc63183-a226-4afe-9590-f447909bcb7a/',
+        certificateFile: '/certificates/udemy-regressao-visual-cypress.jpg',
+      },
+    ],
+  },
+  {
+    id: 'security',
     icon: <ShieldCheck className="w-7 h-7" />,
     items: [
       {
-        name: 'PLACEHOLDER – Certificate Name',
-        issuer: 'TBD',
-        // certificateFile: '/certificates/qa-example.png',
+        name: 'Cybersecurity Essentials',
+        issuer: 'IBSEC - Instituto Brasileiro de Cibersegurança',
+        url: 'https://certs.ibsec.com.br/?cert_hash=d510a504df6d41f3',
+        certificateFile: '/certificates/ibsec-cybersecurity-essentials.jpg',
+      },
+      {
+        name: 'IT Fundamentals for CyberSecurity',
+        issuer: 'IBSEC - Instituto Brasileiro de Cibersegurança',
+        url: 'https://certs.ibsec.com.br/?cert_hash=41e6fa6191e54cd6',
+        certificateFile: '/certificates/ibsec-it-fundamentals-cybersecurity.jpg',
+      },
+      {
+        name: 'Cybersecurity Awareness',
+        issuer: 'IBSEC - Instituto Brasileiro de Cibersegurança',
+        url: 'https://certs.ibsec.com.br/?cert_hash=708a2d508ea263bc',
+        certificateFile: '/certificates/ibsec-cybersecurity-awareness.jpg',
+      },
+      {
+        name: 'Boas Práticas em Cibersegurança',
+        issuer: 'Udemy',
+        url: 'https://www.udemy.com/certificate/UC-85a555a8-1fa7-43f6-a417-8e342fbfe4cd/',
+        certificateFile: '/certificates/udemy-boas-praticas-ciberseguranca.jpg',
       },
     ],
   },
@@ -64,11 +106,9 @@ const categoryConfig: CategoryConfig[] = [
     id: 'others',
     icon: <Award className="w-7 h-7" />,
     items: [
-      {
-        name: 'PLACEHOLDER – Certificate Name',
-        issuer: 'TBD',
-        // certificateFile: '/certificates/others-example.png',
-      },
+      // Credential pages are behind Teachable login, so no public link/file
+      { name: 'Certificação HR.Rocks em Introdução às OKRs', issuer: 'Qulture.Rocks' },
+      { name: 'Certificação HR.Rocks em Gestão de Desempenho e suas Tendências', issuer: 'Qulture.Rocks' },
     ],
   },
 ];
@@ -93,9 +133,10 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
     return () => document.removeEventListener('keydown', handleKey);
   }, [onClose]);
 
-  return (
+  // Portal to <body> so the modal escapes the page's z-10 stacking context and sits above the fixed header
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8"
+      className="fixed inset-0 z-[60] flex items-center justify-center px-4 py-8"
       data-testid="certificate-modal"
     >
       {/* Backdrop */}
@@ -107,7 +148,7 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
 
       {/* Modal card */}
       <div
-        className="relative z-10 w-full max-w-3xl bg-white/95 backdrop-blur-md border border-black/5 rounded-2xl shadow-2xl overflow-hidden"
+        className="relative z-10 w-full max-w-2xl bg-white/95 backdrop-blur-md border border-black/5 rounded-2xl shadow-2xl overflow-hidden"
         role="dialog"
         aria-modal="true"
         aria-label={cert.name}
@@ -140,14 +181,14 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
             <iframe
               src={cert.certificateFile}
               title={cert.name}
-              className="w-full h-[65vh] rounded-lg border border-[#E5E5E5]"
+              className="w-full h-[55vh] rounded-lg border border-[#E5E5E5]"
               data-testid="certificate-modal-iframe"
             />
           ) : (
             <img
               src={cert.certificateFile}
               alt={cert.name}
-              className="w-full max-h-[65vh] object-contain rounded-lg"
+              className="w-full max-h-[55vh] object-contain rounded-lg"
               data-testid="certificate-modal-image"
             />
           )}
@@ -169,7 +210,8 @@ const CertificateModal = ({ cert, onClose }: CertificateModalProps) => {
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
@@ -180,10 +222,9 @@ export const CertificatesSection = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [viewingCert, setViewingCert] = useState<Certificate | null>(null);
 
-  const categories = categoryConfig.map((cfg, i) => ({
+  const categories = categoryConfig.map(cfg => ({
     ...cfg,
-    label: t.certificates.categories[i].label,
-    ariaLabel: t.certificates.categories[i].ariaLabel,
+    ...t.certificates.categories[cfg.id],
   }));
 
   const handleCategoryClick = (id: string) => {
