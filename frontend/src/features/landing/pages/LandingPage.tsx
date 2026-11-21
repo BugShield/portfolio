@@ -18,7 +18,7 @@ export const LandingPage = () => {
 
   const handleDownloadResume = () => {
     const link = document.createElement('a');
-    link.href = `/resume-${lang}.pdf`;
+    link.href = `/resume/${RESUME_FILE_NAMES[lang]}`;
     link.download = RESUME_FILE_NAMES[lang];
     document.body.appendChild(link);
     link.click();
